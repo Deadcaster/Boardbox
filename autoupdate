@@ -1,0 +1,33 @@
+Sub CommandButton1_Click()
+
+CELULAS = Array("L2:L10000")
+For i = 0 To UBound(CELULAS)
+    Range(CELULAS(i)).ClearContents
+Next i
+
+lin1 = 3
+lin2 = 2
+
+Do Until Sheets("LEVANTAMENTO").Cells(lin1, 8) = ""
+
+    CX1 = Sheets("LEVANTAMENTO").Cells(lin1, 8)
+    PS1 = Sheets("LEVANTAMENTO").Cells(lin1, 9) / 1000
+    
+    lin2 = 2
+    
+    Do Until Sheets("BD").Cells(lin2, 1) = ""
+    
+        CX2 = Sheets("BD").Cells(lin2, 1)
+        PS2 = Sheets("BD").Cells(lin2, 12)
+        
+        If CX1 = CX2 And PS1 > PS2 Then
+            Sheets("BD").Cells(lin2, 12) = Sheets("LEVANTAMENTO").Cells(lin1, 9) / 1000
+        End If
+        
+        lin2 = lin2 + 1
+    Loop
+    
+    lin1 = lin1 + 1
+Loop
+
+End Sub
