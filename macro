@@ -1,0 +1,144 @@
+Sub Procurar()
+    
+    Dim A, L, C, A1, L1, C1, FL, FT, Amin, Amax, Lmin, Lmax, Cmin, Cmax, FLmin, FLmax, FTmin, FTmax, i As Integer
+    
+    lin1 = 2
+    lin2 = 11
+    FT1 = 9999
+    FT2 = 0
+    
+    Amin = Sheets("Desen. Caixa de Embarque").Cells(3, 2).Value
+    Amax = Sheets("Desen. Caixa de Embarque").Cells(3, 3).Value
+    Lmin = Sheets("Desen. Caixa de Embarque").Cells(4, 2).Value
+    Lmax = Sheets("Desen. Caixa de Embarque").Cells(4, 3).Value
+    Cmin = Sheets("Desen. Caixa de Embarque").Cells(5, 2).Value
+    Cmax = Sheets("Desen. Caixa de Embarque").Cells(5, 3).Value
+    FLmin = Sheets("Desen. Caixa de Embarque").Cells(6, 2).Value
+    FLmax = Sheets("Desen. Caixa de Embarque").Cells(6, 3).Value
+    FCmin = Sheets("Desen. Caixa de Embarque").Cells(7, 2).Value
+    FCmax = Sheets("Desen. Caixa de Embarque").Cells(7, 3).Value
+    FTmin = Sheets("Desen. Caixa de Embarque").Cells(8, 2).Value
+    FTmax = Sheets("Desen. Caixa de Embarque").Cells(8, 3).Value
+    
+    
+    CELULAS = Array("A11:P10000")
+    For i = 0 To UBound(CELULAS)
+        Range(CELULAS(i)).ClearContents
+    Next i
+
+    Do Until Sheets("BD").Cells(lin1, 1) = ""
+        For A = Amin To Amax
+        A1 = Sheets("BD").Cells(lin1, 6).Value
+        QA = WorksheetFunction.RoundDown(A1 / A, 0)
+        FA = A1 - QA * A
+        
+            If QA <> 0 Then
+            If FA <= FTmax And FA >= FTmin Then
+            
+            
+            
+            
+            
+                
+                For L = Lmin To Lmax
+                    L1 = Sheets("BD").Cells(lin1, 5).Value
+                    QLL = WorksheetFunction.RoundDown(L1 / L, 0)
+                    FLL = L1 - QLL * L
+                    If QLL <> 0 Then
+                    If FLL <= FLmax And FLL >= FLmin Then
+                        For C = Cmin To Cmax
+                            C1 = Sheets("BD").Cells(lin1, 4).Value
+                            QCC = WorksheetFunction.RoundDown(C1 / C, 0)
+                            FCC = C1 - QCC * C
+                            
+                            If QCC <> 0 Then
+                            If FCC <= FCmax And FCC >= FCmin Then
+                            
+                                FT2 = FCC + FLL + FA
+                                
+                                'If FT2 < FT1 Then
+                                'lin2 = lin2 - 1
+                                'FT1 = FT2
+                                'End If
+                                
+                                Sheets("Desen. Caixa de Embarque").Cells(lin2, 1) = Sheets("BD").Cells(lin1, 2) 'Descri
+                                Sheets("Desen. Caixa de Embarque").Cells(lin2, 2) = Sheets("BD").Cells(lin1, 1) 'Cod
+                                Sheets("Desen. Caixa de Embarque").Cells(lin2, 3) = C1 'C
+                                Sheets("Desen. Caixa de Embarque").Cells(lin2, 4) = L1 'L
+                                Sheets("Desen. Caixa de Embarque").Cells(lin2, 5) = A1 'A
+                                Sheets("Desen. Caixa de Embarque").Cells(lin2, 6) = A
+                                Sheets("Desen. Caixa de Embarque").Cells(lin2, 7) = L
+                                Sheets("Desen. Caixa de Embarque").Cells(lin2, 8) = C
+                                Sheets("Desen. Caixa de Embarque").Cells(lin2, 9) = "C x C" ' Posição
+                                Sheets("Desen. Caixa de Embarque").Cells(lin2, 10) = FA 'Folga A
+                                Sheets("Desen. Caixa de Embarque").Cells(lin2, 11) = FLL 'Folga L
+                                Sheets("Desen. Caixa de Embarque").Cells(lin2, 12) = FCC 'Folga C
+                                Sheets("Desen. Caixa de Embarque").Cells(lin2, 13) = QA 'Quantidade A
+                                Sheets("Desen. Caixa de Embarque").Cells(lin2, 14) = QLL 'Quantidade L
+                                Sheets("Desen. Caixa de Embarque").Cells(lin2, 15) = QCC 'Quantidade C
+                                Sheets("Desen. Caixa de Embarque").Cells(lin2, 16) = QA * QLL * QCC 'Quantidade total
+                                
+                                lin2 = lin2 + 1
+                                
+                            End If
+                            End If
+                        Next C
+                    End If
+                    End If
+                    
+                    
+                    
+                    C1 = Sheets("BD").Cells(lin1, 4).Value
+                    QLC = WorksheetFunction.RoundDown(C1 / L, 0)
+                    FLC = C1 - QLC * L
+                    If QLC <> 0 Then
+                    If FLC <= FLmax And FLC >= FLmin Then
+                        For C = Cmin To Cmax
+                            L1 = Sheets("BD").Cells(lin1, 5).Value
+                            QCL = WorksheetFunction.RoundDown(L1 / C, 0)
+                            FCL = L1 - QCL * C
+                            
+                            If QCL <> 0 Then
+                            If FCL <= FCmax And FCL >= FCmin Then
+                                Sheets("Desen. Caixa de Embarque").Cells(lin2, 1) = Sheets("BD").Cells(lin1, 2) 'Descri
+                                Sheets("Desen. Caixa de Embarque").Cells(lin2, 2) = Sheets("BD").Cells(lin1, 1) 'Cod
+                                Sheets("Desen. Caixa de Embarque").Cells(lin2, 3) = C1 'C
+                                Sheets("Desen. Caixa de Embarque").Cells(lin2, 4) = L1 'L
+                                Sheets("Desen. Caixa de Embarque").Cells(lin2, 5) = A1 'A
+                                Sheets("Desen. Caixa de Embarque").Cells(lin2, 6) = A
+                                Sheets("Desen. Caixa de Embarque").Cells(lin2, 7) = L
+                                Sheets("Desen. Caixa de Embarque").Cells(lin2, 8) = C
+                                Sheets("Desen. Caixa de Embarque").Cells(lin2, 9) = "C x L" ' Posição
+                                Sheets("Desen. Caixa de Embarque").Cells(lin2, 10) = FA 'Folga A
+                                Sheets("Desen. Caixa de Embarque").Cells(lin2, 11) = FLC 'Folga L
+                                Sheets("Desen. Caixa de Embarque").Cells(lin2, 12) = FCL 'Folga C
+                                Sheets("Desen. Caixa de Embarque").Cells(lin2, 13) = QA 'Quantidade A
+                                Sheets("Desen. Caixa de Embarque").Cells(lin2, 14) = QLC 'Quantidade L
+                                Sheets("Desen. Caixa de Embarque").Cells(lin2, 15) = QCL 'Quantidade C
+                                Sheets("Desen. Caixa de Embarque").Cells(lin2, 16) = QA * QLC * QCL 'Quantidade total
+                                
+                                FT3 = FCL + FLC + FA
+                                
+                                'If FT2 <= FT1 Then
+                                lin2 = lin2 + 1
+                                'FT1 = FT2
+                                'End If
+                            End If
+                            End If
+                        Next C
+                    End If
+                    End If
+                    
+                    
+                Next L
+            End If
+            End If
+        
+        Next A
+        'FT1 = 0
+        lin1 = lin1 + 1
+    Loop
+    'FT1 = 0
+    
+    
+End Sub
